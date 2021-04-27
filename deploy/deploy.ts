@@ -3,6 +3,8 @@ import chalk from 'chalk';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 import { DeployFunction, DeployResult } from 'hardhat-deploy/types';
 
+import genericRegistryAbi from "@pooltogether/pooltogether-generic-registry/abis/AddressRegistry.json"
+
 
 const displayLogs = !process.env.HIDE_DEPLOY_LOG;
 
@@ -70,8 +72,8 @@ const chainName = (chainId: number) => {
 const deployFunction: any = async function (hre: HardhatRuntimeEnvironment) {
   const { getNamedAccounts, deployments, getChainId, ethers } = hre;
   const { deploy } = deployments;
-
-  let { deployer, admin } = await getNamedAccounts();
+  
+  let { deployer, admin, timelock, genericRegistry } = await getNamedAccounts();
 
   const chainId = parseInt(await getChainId());
 
@@ -81,22 +83,33 @@ const deployFunction: any = async function (hre: HardhatRuntimeEnvironment) {
   const signer = ethers.provider.getSigner(deployer);
 
   dim('\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
-  dim('PoolTogether PrizePoolRegistry - Deploy Script');
+  dim('PoolTogether Prize Pool Registry - Deploy Script');
   dim('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n');
 
   dim(`network: ${chainName(chainId)} (${isTestEnvironment ? 'local' : 'remote'})`);
   dim(`deployer: ${deployer}`);
 
-  // cyan(`\nDeploying PrizePoolRegistry...`);
-  // const proxyFactoryResult = await deploy('GenericProxyFactory', {
-  //   from: deployer,
-  // });
-  // displayResult('GenericProxyFactory', proxyFactoryResult);
+  // deploy a registry 
+  // const prizePoolRegistryResult = await deploy("GenericRegistry", {
+  //   skipIfAlreadyDeployed: true,
+  //   args: ["Prize Pools", timelock],
+  //   from: deployer
+  // })
 
-  // pull in generic registry package
-  // pull in factoryDeploy()
-  // deploy a instance of the registry with the factoryDeploy()
-  // populate this with the governance pool addresses
+  // const genericRegistryInterface = new ethers.utils.Interface(genericRegistryAbi)
+  // const genericRegistryContractFactory = new ethers.ContractFactory(genericRegistryInterface, GenericProxyFactory.bytecode, signer)
+  
+
+  const genericRegistryContractFactory = await ethers.getContractFactory("AddressRegistry")
+  
+  const prizePoolRegistryResult = await genericRegistryContractFactory.deploy()
+
+  // now add prize pools to registry
+  const prizePoolRegistryContract = await ethers.getContractAt("GenericRegistry", prizePoolRegistryResult.address) 
+  const prizePools = ["0x4706856FA8Bb747D50b4EF8547FE51Ab5Edc4Ac2", "0xde5275536231eCa2Dd506B9ccD73C028e16a9a32", "0xab068F220E10eEd899b54F1113dE7E354c9A8eB7"] // array of governance pools on rinkeby
+  await prizePoolRegistryContract.addAddresses(prizePools)
+
+  green(`Done!`)
 
 };
 
