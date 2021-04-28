@@ -89,23 +89,13 @@ const deployFunction: any = async function (hre: HardhatRuntimeEnvironment) {
   dim(`network: ${chainName(chainId)} (${isTestEnvironment ? 'local' : 'remote'})`);
   dim(`deployer: ${deployer}`);
 
-  // deploy a registry 
-  // const prizePoolRegistryResult = await deploy("GenericRegistry", {
-  //   skipIfAlreadyDeployed: true,
-  //   args: ["Prize Pools", timelock],
-  //   from: deployer
-  // })
-
-  // const genericRegistryInterface = new ethers.utils.Interface(genericRegistryAbi)
-  // const genericRegistryContractFactory = new ethers.ContractFactory(genericRegistryInterface, GenericProxyFactory.bytecode, signer)
-  
-
-  const genericRegistryContractFactory = await ethers.getContractFactory("AddressRegistry")
-  
-  const prizePoolRegistryResult = await genericRegistryContractFactory.deploy()
+  const prizePoolRegistryResult = await deploy("AddressRegistry", {
+    from: deployer,
+    args: ["Prize Pools", deployer]
+  })
 
   // now add prize pools to registry
-  const prizePoolRegistryContract = await ethers.getContractAt("GenericRegistry", prizePoolRegistryResult.address) 
+  const prizePoolRegistryContract = await ethers.getContractAt("AddressRegistry", prizePoolRegistryResult.address) 
   const prizePools = ["0x4706856FA8Bb747D50b4EF8547FE51Ab5Edc4Ac2", "0xde5275536231eCa2Dd506B9ccD73C028e16a9a32", "0xab068F220E10eEd899b54F1113dE7E354c9A8eB7"] // array of governance pools on rinkeby
   await prizePoolRegistryContract.addAddresses(prizePools)
 
