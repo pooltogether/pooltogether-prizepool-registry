@@ -96,7 +96,12 @@ const deployFunction: any = async function (hre: HardhatRuntimeEnvironment) {
 
   // now add prize pools to registry
   const prizePoolRegistryContract = await ethers.getContractAt("AddressRegistry", prizePoolRegistryResult.address) 
-  const prizePools = ["0x4706856FA8Bb747D50b4EF8547FE51Ab5Edc4Ac2", "0xde5275536231eCa2Dd506B9ccD73C028e16a9a32", "0xab068F220E10eEd899b54F1113dE7E354c9A8eB7"] // array of governance pools on rinkeby
+  const prizePools = ["0xEBfb47A7ad0FD6e57323C8A42B2E5A6a4F68fc1a",
+    "0x0650d780292142835F6ac58dd8E2a336e87b4393",
+    "0xde9ec95d7708b8319ccca4b8bc92c0a3b70bf416",
+    "0xBC82221e131c082336cf698F0cA3EBd18aFd4ce7",
+  "0x396b4489da692788e327e2e4b2b0459a5ef26791",
+"0xc2a7Dfb76E93d12a1bB1Fa151b9900158090395d"] 
   await prizePoolRegistryContract.addAddresses(prizePools)
 
   green(`Done!`)
