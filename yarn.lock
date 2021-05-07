@@ -1019,15 +1019,10 @@
     deploy-eip-1820 "1.0.0"
     sortition-sum-tree-factory "0.1.0"
 
-"@pooltogether/pooltogether-generic-registry@^1.0.7":
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/@pooltogether/pooltogether-generic-registry/-/pooltogether-generic-registry-1.0.7.tgz#a3b419cf5568b0688b3905039974328d4145c299"
-  integrity sha512-RWUd17GK+iLVWv79tnfQffP0Ib7Da/7OGTXcN0FOzZbtrbNxidnWloTidYnbS/fGwtBDj7+AcP/S1YTNaRyDaw==
-
-"@pooltogether/pooltogether-proxy-factory-package@latest":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@pooltogether/pooltogether-proxy-factory-package/-/pooltogether-proxy-factory-package-1.0.1.tgz#c096ac0b56e97716f1974efca7887364ebb67fb2"
-  integrity sha512-zG6ikHCmHOztrlXTba0CMlxs1XW0FnOXVVBLdegfhB+Onho//JMSxkrK9/Kwx0NMNx2wn5+QwGOL/mDQbIqYmQ==
+"@pooltogether/pooltogether-generic-registry@^1.0.9":
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/@pooltogether/pooltogether-generic-registry/-/pooltogether-generic-registry-1.0.9.tgz#f16fba214b40153144a2fca78c1b798d1bbf49bf"
+  integrity sha512-NsgvwbSD2k+hok7xefNtdGa10adLd3Xzs/JMs/Ib+w+7BXbvV87mAo66fZEBxLRXxUKk2aXvS2LGHNdsvrpYaA==
 
 "@pooltogether/pooltogether-rng-contracts@1.0.0":
   version "1.0.0"
